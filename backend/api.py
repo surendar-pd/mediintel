@@ -126,12 +126,14 @@ def load_model():
         # Using a smaller model that works on CPU
         model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
         
-        # Load model and tokenizer with CPU optimizations
+        # Load model and tokenizer with CPU and memory optimizations
         model = AutoModelForCausalLM.from_pretrained(
             model_name,
             device_map="auto",
             torch_dtype=torch.float32,  # Use float32 for CPU
-            low_cpu_mem_usage=True
+            low_cpu_mem_usage=True,
+            max_memory={'cpu': '450MB'},
+            offload_folder="/tmp/offload"
         )
         tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
         tokenizer.pad_token = tokenizer.eos_token
