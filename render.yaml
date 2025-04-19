@@ -2,8 +2,9 @@ services:
   - type: web
     name: doctor-gpt-api
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn -c gunicorn_config.py backend.api:app
+    rootDir: backend
+    buildCommand: pip install -r ../requirements.txt
+    startCommand: gunicorn -c ../gunicorn_config.py api:app
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
@@ -12,12 +13,8 @@ services:
       - key: CORS_ORIGINS
         value: https://mediintel.netlify.app
       - key: QDRANT_URL
-        fromDatabase:
-          name: qdrant-db
-          property: connectionString
+        value: https://863329d5-c959-4c16-8fff-6bb9d73a12ae.us-east4-0.gcp.cloud.qdrant.io:6333
       - key: QDRANT_API_KEY
-        fromDatabase:
-          name: qdrant-db
-          property: password
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.LjiMEfwKjdE3LHW3Y5hQd0xrybwOPP9Y-W1WEuI_1rU
       - key: OLLAMA_MODEL
         value: mxbai-embed-large:335m 

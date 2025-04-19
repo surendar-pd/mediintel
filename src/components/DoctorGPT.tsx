@@ -13,7 +13,7 @@ import {
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 
-const API_BASE_URL = 'http://127.0.0.1:5000';
+const API_BASE_URL = 'https://mediintel.onrender.com';
 
 const DoctorGPT: React.FC = () => {
   const [question, setQuestion] = useState('');
