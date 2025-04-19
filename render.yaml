@@ -10,7 +10,7 @@ services:
       - key: FLASK_ENV
         value: production
       - key: CORS_ORIGINS
-        value: https://your-frontend-domain.com
+        value: https://mediintel.netlify.app
       - key: QDRANT_URL
         fromDatabase:
           name: qdrant-db
