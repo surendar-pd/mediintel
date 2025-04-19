@@ -9,27 +9,33 @@ from pypdf import PdfReader
 import ollama
 import os
 import tempfile
-from dotenv import load_dotenv
+from dotenv import load_dotenv, dotenv_values
 import base64
 
 # Load environment variables
 load_dotenv()
+env_vars = dotenv_values()
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app)
-
+CORS(
+    app,
+    supports_credentials=True,
+    resources={r"/*": {
+        "origins": ["http://localhost:3000", "http://127.0.0.1:3000"]
+    }}
+)
 # Constants
 MAX_INPUT_LENGTH = 1000
 MAX_NEW_TOKENS = 280
 COLLECTION_NAME = "medical_docs"
 VECTOR_SIZE = 1024  # mxbai-embed-large vector size
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "mxbai-embed-large:335m")
+OLLAMA_MODEL = env_vars.get("OLLAMA_MODEL", "mxbai-embed-large:335m")
 
 # Initialize Qdrant client
 client = QdrantClient(
-    url=os.getenv("QDRANT_URL"),
-    api_key=os.getenv("QDRANT_API_KEY")
+    url=env_vars.get("QDRANT_URL"),
+    api_key=env_vars.get("QDRANT_API_KEY")
 )
 
 # Try to create collection if it doesn't exist
@@ -231,4 +237,4 @@ def ask_question():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000) 
+    app.run(debug=True, port=5000)
