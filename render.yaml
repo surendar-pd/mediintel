@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: doctor-gpt-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -c gunicorn_config.py backend.api:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: FLASK_ENV
+        value: production
+      - key: CORS_ORIGINS
+        value: https://your-frontend-domain.com
+      - key: QDRANT_URL
+        fromDatabase:
+          name: qdrant-db
+          property: connectionString
+      - key: QDRANT_API_KEY
+        fromDatabase:
+          name: qdrant-db
+          property: password
+      - key: OLLAMA_MODEL
+        value: mxbai-embed-large:335m 
