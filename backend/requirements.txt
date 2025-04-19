@@ -1,0 +1,12 @@
+flask==2.0.1
+flask-cors==3.0.10
+torch==2.6.0
+torchvision==0.21.0
+torchaudio==2.6.0
+transformers>=4.38.1
+qdrant-client>=1.13.3
+langchain>=0.1.9
+pypdf>=4.0.1
+ollama>=0.1.6
+python-dotenv>=1.0.1
+werkzeug>=2.0.1 
