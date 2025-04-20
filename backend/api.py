@@ -18,13 +18,7 @@ env_vars = dotenv_values()
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(
-    app,
-    supports_credentials=True,
-    resources={r"/*": {
-        "origins": ["http://localhost:3000", "http://127.0.0.1:3000"]
-    }}
-)
+CORS(app)
 # Constants
 MAX_INPUT_LENGTH = 1000
 MAX_NEW_TOKENS = 280
@@ -110,8 +104,8 @@ def search_documents(query, top_k=3):
     # Get query embedding
     query_embedding = get_embeddings([query])[0]
     
-    # Search in Qdrant
-    search_result = client.search(
+    # Search in Qdrant using query_points instead of search
+    search_result = client.query_points(
         collection_name=COLLECTION_NAME,
         query_vector=query_embedding,
         limit=top_k
